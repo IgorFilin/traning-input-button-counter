@@ -18,7 +18,7 @@ function App() {
         {id: v1(), title: 'Saturday  ', isDone: false}
     ]
     const [stagesState, useStagesState] = useState<StagesTypeProps>(stages)
-    const [filter, setFilter] = useState('All')
+    const [filter, setFilter] = useState<FilterValueIsDoneType>('All')
 
 
     let filterStagesState = [...stagesState]
@@ -37,13 +37,32 @@ function App() {
     }
     filterStatus()
 
+    const FilterStatusStages = (status: boolean, id: string) => {
+        let NewStatusTask = filterStagesState.find(s => s.id === id)
+        if (NewStatusTask) {
+            NewStatusTask["isDone"] = status
+        }
+        return useStagesState([...filterStagesState])
+    }
 
-    return (
-        <div className="App">
-            <Counter/>
-            <Todolist stages={filterStagesState} setFilter={setFilter}/>
-        </div>
-    );
+    const DeleteStages = (id:string) => {
+        let newStages = filterStagesState.filter(s => s.id !== id)
+        useStagesState(newStages)
+    }
+
+
+
+return (
+    <div className="App">
+        <Counter/>
+        <Todolist stages={filterStagesState}
+                  setFilter={setFilter}
+                  FilterStatusStages={FilterStatusStages}
+                  DeleteStages={DeleteStages}
+                  filter={filter}
+        />
+    </div>
+);
 }
 
 export default App;

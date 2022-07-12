@@ -8,3 +8,9 @@
 .buttons{
     margin-left: 15px;
 }
+.buttonActive{
+    background-color: #61dafb;
+}
+.ActiveStages{
+    opacity: 0.5;
+}

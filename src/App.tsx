@@ -20,7 +20,7 @@ function App() {
     const [stagesState, useStagesState] = useState<StagesTypeProps>(stages)
     const [filter, setFilter] = useState<FilterValueIsDoneType>('All')
     const [stateInput,setStateInput] = useState('')
-
+    const [error,setError] = useState<string>('')
 
     let filterStagesState = [...stagesState]
 
@@ -52,7 +52,7 @@ function App() {
     }
 
     const AddNewStages = () => {
-        useStagesState([{id:v1(),title:stateInput,isDone:false},...stagesState])
+        useStagesState([{id:v1(),title:stateInput.trim(),isDone:false},...stagesState])
         setStateInput('')
 
     }
@@ -68,6 +68,8 @@ return (
                   setStateInput={setStateInput}
                   AddNewStages={AddNewStages}
                   stateInput={stateInput}
+                  setError={setError}
+                  error={error}
         />
     </div>
 );

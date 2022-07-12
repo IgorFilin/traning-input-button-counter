@@ -11,7 +11,9 @@ type TodolistTypeProps = {
     filter: FilterValueIsDoneType
     setStateInput: (input: string) => void
     AddNewStages: () => void
-    stateInput:string
+    stateInput: string
+    setError: (e: string) => void
+    error: string
 }
 
 export const Todolist: React.FC<TodolistTypeProps> = (
@@ -23,7 +25,9 @@ export const Todolist: React.FC<TodolistTypeProps> = (
         filter,
         setStateInput,
         AddNewStages,
-        stateInput
+        stateInput,
+        setError,
+        error
     }
 ) => {
 
@@ -41,17 +45,23 @@ export const Todolist: React.FC<TodolistTypeProps> = (
 
     const onChandeAddStagHandlet = (e: ChangeEvent<HTMLInputElement>) => {
         setStateInput(e.currentTarget.value)
-     }
+        setError('')
+
+    }
     const onClickInputChangeHandler = () => {
-        AddNewStages()
-
-
+        if (stateInput.trim() !== '' && !Number(stateInput)) {
+            AddNewStages()
+        } else {
+            setError('Title not found')
+            setStateInput('')
+        }
     }
 
     return (
         <div className={classes.todolist}>
-            <div className={classes.inputBar}><input value={stateInput} onChange={onChandeAddStagHandlet}/>
+            <div className={classes.inputBar}><input className={error? classes.errorInput: ""} value={stateInput} onChange={onChandeAddStagHandlet}/>
                 <button onClick={onClickInputChangeHandler}>+</button>
+                {error && <div className={classes.error}>{error}</div>}
             </div>
             <ul>
                 {stages.map(s => {
